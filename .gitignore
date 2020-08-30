@@ -11,6 +11,9 @@
 # production
 /build
 
+# Chrome Debugger
+*.cpuprofile
+
 # misc
 .DS_Store
 .env.local
