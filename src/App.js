@@ -1,12 +1,37 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Form from "./components/form";
 import Cita from './components/cita';
 
 
 function App() {
 
+  // ? Citas en el LocalStorage
+  // ? En éste caso se está utilizando el localStorage, pero en app reales sería el equivalente
+  // ? a traer datos de la base de datos e inicializar la variable correspondiente con el
+  // ? resultado recuperado
+  let initialAppointments = JSON.parse (localStorage.getItem("appointments"));
+  console.log("initialAppointments: ", initialAppointments);
+  if( !initialAppointments ) {
+    initialAppointments = [];
+  }
+
+
+
   // ? Arreglo de citas
-  const [appointments, saveAppointments] = useState([])
+  const [appointments, saveAppointments] = useState(initialAppointments)
+
+
+  // ? UseEffect para realizar ciertas operaciones cuando el State cambia
+  useEffect( () => {
+    let initialAppointments = JSON.parse (localStorage.getItem("appointments"));
+    console.log( "Página completamente cargada o algún movimiento hubo con las citas" );
+    if( initialAppointments ) {
+      localStorage.setItem( 'appointments', JSON.stringify(appointments) );
+    } else{
+      localStorage.setItem( 'appointments', JSON.stringify( [] ) );
+    }
+
+  }, [ appointments ]);
 
   const createAppointment = (appointment) => {
     saveAppointments([...appointments, appointment])
